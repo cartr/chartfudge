@@ -8,6 +8,9 @@
                 border-radius:10px;
                 background-color:#eee;
             }
+            input[type=number] {
+                width:5em;
+            }
         </style>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     </head>
@@ -21,7 +24,13 @@
             <div class="ct-chart ct-perfect-fourth" id="chart_div"></div>
             <label for="charttitle">Title: </label><input id="charttitle" oninput="drawRealChart();"><br>
             <label for="xaxis">X axis: </label><input id="xaxis" oninput="drawRealChart();"><br>
+            <label for="xaxismin">X value range: </label><input id="xaxismin" type="number" value="0" onchange="
+    chartDataToFudgedChartData(); drawRealChart();">-<input id="xaxismax" type="number" value="100" onchange="
+    chartDataToFudgedChartData(); drawRealChart();"><br>
             <label for="yaxis">Y axis: </label><input id="yaxis" oninput="drawRealChart();"><br>
+            <label for="yaxismin">Y value range: </label><input id="yaxismin" type="number" value="0" onchange="
+    chartDataToFudgedChartData(); drawRealChart();">-<input id="yaxismax" type="number" value="100" onchange="
+    chartDataToFudgedChartData(); drawRealChart();"><br>
             <label for="density">Data density: </label><input id="density" type="range" min="-2" max="2" step="1" value="0" onchange="
     squiggleDataToChartData(); chartDataToFudgedChartData(); drawRealChart();"><br>
             <label for="jitter">Jitter: </label><input id="jitter" type="range" min="0" max="0.6" step="0.05" value="0" onchange="
