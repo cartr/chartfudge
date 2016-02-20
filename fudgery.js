@@ -208,12 +208,12 @@ function fixChartExportLinks() {
 }
 
 window.onpopstate = function(event) {
-    if (event.state === undefined) {
+    if (event.state.page === undefined) {
         document.body.className = "initial";
     } else {
         squiggleDataToChartData();
         chartDataToFudgedChartData();
         drawRealChart();
-        document.body.className='charting';
+        document.body.className=event.state.page;
     }
 }
