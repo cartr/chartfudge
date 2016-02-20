@@ -207,6 +207,13 @@ function fixChartExportLinks() {
     document.querySelector('#dataexport').href = "data:text/csv;base64,"+btoa(csvString);
 }
 
-window.onpopstate = function() {
-    document.body.className = "initial";
+window.onpopstate = function(event) {
+    if (event.state === undefined) {
+        document.body.className = "initial";
+    } else {
+        squiggleDataToChartData();
+        chartDataToFudgedChartData();
+        drawRealChart();
+        document.body.className='charting';
+    }
 }
