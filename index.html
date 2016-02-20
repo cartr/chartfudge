@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ChartFudge</title>
+        <style>
+            .squiggle {
+                border:1px solid black;
+                border-radius:10px;
+                background-color:#eee;
+            }
+        </style>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    </head>
+    <body>
+        <div id="fudge_view">
+            <canvas width="200" height="200" id="drawaline" class="squiggle"></canvas>
+            <button onclick="squiggleDataToChartData(); chartDataToFudgedChartData(); drawRealChart()">Fudge!</button>
+        </div>
+        <script src="fudgery.js"></script>
+        <div style="width:25vw;" id="chart_view">
+            <div class="ct-chart ct-perfect-fourth" id="chart_div"></div>
+            <label for="charttitle">Title: </label><input id="charttitle" oninput="drawRealChart();"><br>
+            <label for="xaxis">X axis: </label><input id="xaxis" oninput="drawRealChart();"><br>
+            <label for="yaxis">Y axis: </label><input id="yaxis" oninput="drawRealChart();"><br>
+            <label for="density">Data density: </label><input id="density" type="range" min="-2" max="2" step="1" value="0" onchange="
+    squiggleDataToChartData(); chartDataToFudgedChartData(); drawRealChart();"><br>
+            <label for="jitter">Jitter: </label><input id="jitter" type="range" min="0" max="0.6" step="0.05" value="0" onchange="
+    chartDataToFudgedChartData(); drawRealChart();">
+        </div>
+    </body>
+</html>
