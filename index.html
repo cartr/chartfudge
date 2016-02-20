@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>ChartFudge</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <style>
             *:not(input) {
                 -webkit-user-select: none;
@@ -91,11 +91,21 @@
                 text-decoration: none;
                 line-height:1.2em;
             }
-            @media screen and (max-width: 350px) {
+            @media screen and (max-width: 400px) {
+                main {
+                    margin-top:5px;
+                    padding-left:10px;
+                    padding-right:10px;
+                }
+            }
+            @media screen and (max-width: 340px) {
                 main {
                     margin-top:0;
-                    padding-left:5px;
-                    padding-right:5px;
+                    padding-left:0;
+                    padding-right:0;
+                }
+                body {
+                    background-color:white;
                 }
             }
         </style>
