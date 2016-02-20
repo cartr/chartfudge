@@ -37,20 +37,44 @@ function setUpGraphDrawing(){
         addSquiggleDataPoint(event.offsetX, event.offsetY);
         redrawSquiggleView(canvas, ctx);
     });
+    var interpolateDataPoints = function(x,y) {
+        var dx = -currentDrawLocation[0]+x;
+        var dy = -currentDrawLocation[1]+y;
+        var numIntermediateValues = Math.abs(dx) - 1;
+        if (numIntermediateValues < 100) {
+            for (var i=0; i<numIntermediateValues; i++) {
+                addSquiggleDataPoint(currentDrawLocation[0] + (dx*i/numIntermediateValues), currentDrawLocation[1] + (dy*i/numIntermediateValues));
+            }
+        }
+        addSquiggleDataPoint(x,y);
+        redrawSquiggleView(canvas, ctx);
+        currentDrawLocation = [x,y];
+    }
     canvas.addEventListener("mousemove", function(event) {
         if (event.buttons & 1) {
-            var dx = -currentDrawLocation[0]+event.offsetX;
-            var dy = -currentDrawLocation[1]+event.offsetY;
-            var numIntermediateValues = Math.abs(dx) - 1;
-            if (numIntermediateValues < 100) {
-                for (var i=0; i<numIntermediateValues; i++) {
-                    addSquiggleDataPoint(currentDrawLocation[0] + (dx*i/numIntermediateValues), currentDrawLocation[1] + (dy*i/numIntermediateValues));
-                }
-            }
-            addSquiggleDataPoint(event.offsetX, event.offsetY);
-            redrawSquiggleView(canvas, ctx);
+            interpolateDataPoints(event.offsetX, event.offsetY);
         }
         currentDrawLocation = [event.offsetX, event.offsetY];
+    });
+    
+    canvas.ontouchstart = (function(event) {
+        var x = event.touches[0].clientX - canvas.getBoundingClientRect().left;
+        var y = event.touches[0].clientY - canvas.getBoundingClientRect().top;
+        if (x >= 0 && y >= 0 && x <= 300 && y <= 200) {
+            currentDrawLocation = [x,y];
+            addSquiggleDataPoint(x,y);
+            redrawSquiggleView(canvas, ctx);
+        }
+        return false;
+    });
+    
+    canvas.ontouchmove = (function(event) {
+        var x = event.touches[0].clientX - canvas.getBoundingClientRect().left;
+        var y = event.touches[0].clientY - canvas.getBoundingClientRect().top;
+        if (x >= 0 && y >= 0 && x <= 300 && y <= 200) {
+            interpolateDataPoints(x, y);
+        }
+        return false;
     });
     
     google.charts.load('current', {packages: ['corechart', 'line']});
@@ -190,13 +214,11 @@ function fixChartExportLinks() {
     var img = new Image();
     var ctx = canvas.getContext("2d");
     ctx.scale(3, 3);
-    var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
-    var url = URL.createObjectURL(svg);
+    var url = "data:image/svg+xml;base64," + btoa(svgString);
     img.onload = function() {
         ctx.drawImage(img, 0, 0);
         var pngUrl = canvas.toDataURL("image/png");
         document.querySelector('#graphexport').href = pngUrl;
-        URL.revokeObjectURL(url);
     };
     img.src = url;
     
