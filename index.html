@@ -21,7 +21,7 @@
         </div>
         <script src="fudgery.js"></script>
         <div style="width:25vw;" id="chart_view">
-            <div class="ct-chart ct-perfect-fourth" id="chart_div"></div>
+            <div id="chart_div"></div>
             <label for="charttitle">Title: </label><input id="charttitle" oninput="drawRealChart();"><br>
             <label for="xaxis">X axis: </label><input id="xaxis" oninput="drawRealChart();"><br>
             <label for="xaxismin">X value range: </label><input id="xaxismin" type="number" value="0" onchange="
@@ -34,7 +34,9 @@
             <label for="density">Data density: </label><input id="density" type="range" min="-2" max="2" step="1" value="0" onchange="
     squiggleDataToChartData(); chartDataToFudgedChartData(); drawRealChart();"><br>
             <label for="jitter">Jitter: </label><input id="jitter" type="range" min="0" max="0.6" step="0.05" value="0" onchange="
-    chartDataToFudgedChartData(); drawRealChart();">
+    chartDataToFudgedChartData(); drawRealChart();"><br>
+            <a id="dataexport" target="_blank">Export data</a><a id="graphexport" target="_blank">Export chart</a>
         </div>
+        <canvas id="invisible_svg_rendering_canvas" style="display:none"></canvas>
     </body>
 </html>

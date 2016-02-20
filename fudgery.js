@@ -77,7 +77,6 @@ function redrawSquiggleView(canvas, ctx) {
 
 window.addEventListener("load", setUpGraphDrawing);
 if (document.readyState == "complete") { setUpGraphDrawing(); }
-console.log(document.readyState);
 
 
 var gchart = undefined;
@@ -99,6 +98,7 @@ function drawRealChart() {
         legend: {position: "none"}
     };
     gchart.draw(gchartdata, options);
+    setTimeout(fixChartExportLinks,0);
 }
 
 var chartData = [];
@@ -154,7 +154,6 @@ function chartDataToFudgedChartData() {
     for (var i=0; i<chartData.length; i++) {
         fudgedChartData[fudgedChartData.length] = [xmin + (i*xspread/(chartData.length-1)), ymin+yspread*clamp(chartData[i] + (Math.random()-0.5)*jitter)];
     }
-    console.log(fudgedChartData);
     
     if (gchartdata == undefined) {
         gchartdata = new google.visualization.DataTable();
@@ -163,4 +162,29 @@ function chartDataToFudgedChartData() {
     }
     gchartdata.removeRows(0,gchartdata.getNumberOfRows());
     gchartdata.addRows(fudgedChartData);
+}
+
+function fixChartExportLinks() {
+    var svgString = new XMLSerializer().serializeToString(document.querySelector('#chart_div svg'));
+    var canvas = document.getElementById("invisible_svg_rendering_canvas");
+    canvas.width = parseInt(document.querySelector('#chart_div svg').getAttribute("width"))*3;
+    canvas.height = parseInt(document.querySelector('#chart_div svg').getAttribute("height"))*3;
+    var img = new Image();
+    var ctx = canvas.getContext("2d");
+    ctx.scale(3, 3);
+    var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+    var url = URL.createObjectURL(svg);
+    img.onload = function() {
+        ctx.drawImage(img, 0, 0);
+        var pngUrl = canvas.toDataURL("image/png");
+        document.querySelector('#graphexport').href = pngUrl;
+        URL.revokeObjectURL(url);
+    };
+    img.src = url;
+    
+    var csvString = '"'+(document.getElementById('xaxis').value.replace('"','""'))+'","'+(document.getElementById('yaxis').value.replace('"','""'))+'"\n';
+    for (var i=0; i<gchartdata.getNumberOfRows(); i++) {
+        csvString += gchartdata.getValue(i,0)+","+gchartdata.getValue(i,1)+"\n";
+    }
+    document.querySelector('#dataexport').href = "data:text/csv;base64,"+btoa(csvString);
 }
