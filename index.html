@@ -13,6 +13,7 @@
             body {
                 background-color: #6a3e2a;
                 font-family: Helvetica, Arial, sans-serif;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.4);
             }
             main {
                 background-color:white;
@@ -61,10 +62,15 @@
                 overflow:hidden;
                 width:300px;
             }
+            #marketing {
+                text-align: left;
+                line-height: 1.4em;
+                margin-top:3em;
+            }
             body.charting #squiggle_view {
                 width:0px;
             }
-            body.charting #fudge_button {
+            body.charting #fudge_button, body.charting #marketing {
                 display:none;
             }
             .button {
@@ -119,6 +125,10 @@
             <div id="squiggle_view">
                 <canvas width="300" height="200" id="drawaline" class="squiggle"></canvas>
                 <div onclick="squiggleDataToChartData(); chartDataToFudgedChartData(); drawRealChart(); document.body.className='charting';" id="fudge_button" class="button">Fudge!</div>
+                <div id="marketing">
+                    <p>ChartFudge lets you quickly and easily make fake charts. Just draw in the grey box, hit the "Fudge" button, and ChartFudge will do the rest.</p>
+                    <p>Created during the <a href="https://www.koding.com/Hackathon">hack.summit() Virtual Hackathon 2016</a>.</p>
+                </div>
             </div>
         </main>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
