@@ -25,6 +25,7 @@ var squiggleData = [];
 var squiggleDataHeight = 0;
 
 function setUpGraphDrawing(){
+    history.replaceState({'page':'initial'},'');
     var canvas = document.getElementById('drawaline');
     squiggleDataHeight = canvas.height;
     var ctx = retinaify(canvas);
