@@ -93,10 +93,24 @@ function drawRealChart() {
         vAxis: {
           title: document.getElementById('yaxis').value
         },
+        chartArea: {left: 40, bottom:40, top:30, right:0},
         title: document.getElementById('charttitle').value,
         enableInteractivity: false,
-        legend: {position: "none"}
+        legend: {position: "none"},
+        height: 260
     };
+    if (/^\s*$/.test(options.vAxis.title)) {
+        options.chartArea.left = 0;
+        options.height -= 20;
+    }
+    if (/^\s*$/.test(options.hAxis.title)) {
+        options.chartArea.bottom = 0;
+        options.height -= 20;
+    }
+    if (/^\s*$/.test(options.title)) {
+        options.chartArea.top = 0;
+        options.height -= 20;
+    }
     var trendlineselect = document.getElementById("trendline");
     if (trendlineselect.selectedIndex > 0) {
         options.trendlines = {0: {type: trendlineselect.options[trendlineselect.selectedIndex].value, degree: 5}};
