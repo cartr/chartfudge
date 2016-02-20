@@ -206,3 +206,7 @@ function fixChartExportLinks() {
     }
     document.querySelector('#dataexport').href = "data:text/csv;base64,"+btoa(csvString);
 }
+
+window.onpopstate = function() {
+    document.body.className = "initial";
+}
