@@ -12,14 +12,12 @@
                 width:5em;
             }
         </style>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     </head>
     <body>
         <div id="fudge_view">
             <canvas width="200" height="200" id="drawaline" class="squiggle"></canvas>
             <button onclick="squiggleDataToChartData(); chartDataToFudgedChartData(); drawRealChart()">Fudge!</button>
         </div>
-        <script src="fudgery.js"></script>
         <div style="width:25vw;" id="chart_view">
             <div id="chart_div"></div>
             <label for="charttitle">Title: </label><input id="charttitle" oninput="drawRealChart();"><br>
@@ -35,8 +33,16 @@
     squiggleDataToChartData(); chartDataToFudgedChartData(); drawRealChart();"><br>
             <label for="jitter">Jitter: </label><input id="jitter" type="range" min="0" max="0.6" step="0.05" value="0" onchange="
     chartDataToFudgedChartData(); drawRealChart();"><br>
+            <label for="trendline">Trend line: </label><select id="trendline" onchange="drawRealChart();">
+                <option value="none" selected>No trend line</option>
+                <option value="linear">Line</option>
+                <option value="exponential">Exponential</option>
+                <option value="polynomial">Polynomial</option>
+            </select><br>
             <a id="dataexport" target="_blank">Export data</a><a id="graphexport" target="_blank">Export chart</a>
         </div>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="fudgery.js" async></script>
         <canvas id="invisible_svg_rendering_canvas" style="display:none"></canvas>
     </body>
 </html>

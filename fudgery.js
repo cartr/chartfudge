@@ -97,6 +97,10 @@ function drawRealChart() {
         enableInteractivity: false,
         legend: {position: "none"}
     };
+    var trendlineselect = document.getElementById("trendline");
+    if (trendlineselect.selectedIndex > 0) {
+        options.trendlines = {0: {type: trendlineselect.options[trendlineselect.selectedIndex].value, degree: 5}};
+    }
     gchart.draw(gchartdata, options);
     setTimeout(fixChartExportLinks,0);
 }
