@@ -208,7 +208,7 @@ function fixChartExportLinks() {
 }
 
 window.onpopstate = function(event) {
-    if (event.state.page === undefined) {
+    if (!event.state || event.state.page === undefined) {
         document.body.className = "initial";
     } else {
         squiggleDataToChartData();
