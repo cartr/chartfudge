@@ -285,9 +285,8 @@ function drawRealChart() {
     gchart.draw(gchartdata, options);
 }
 
-/* Data URL to Blob function from https://github.com/ebidel/filer.js/blob/master/src/filer.js#L137
-
-Used only on MSIE/Edge.
+/* 
+    Data URL to Blob function from https://github.com/ebidel/filer.js/blob/master/src/filer.js#L137
 */
 function dataURLToBlob(dataURL) {
     var BASE64_MARKER = ';base64,';
@@ -319,8 +318,7 @@ function download(dataURI, filename) {
     var a = document.createElement("a");
     a.download = filename;
     a.href = dataURI;
-    if (document.documentMode || /Edge/.test(navigator.userAgent) || window.URL) {
-        // IE can't navigate to data URIs, so make a Blob URI instead.
+    if (window.URL) {
         if (downloadURI) {
             URL.revokeObjectURL(downloadURI);
         }
