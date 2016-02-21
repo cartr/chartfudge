@@ -283,12 +283,21 @@ function drawRealChart() {
         }
     }
     gchart.draw(gchartdata, options);
-    setTimeout(fixChartExportLinks, 150);
-    setTimeout(fixChartExportLinks, 250);
-    setTimeout(fixChartExportLinks, 500);
 }
 
-function fixChartExportLinks() {
+function download(dataURI, filename) {
+    "use strict";
+    var a = document.createElement("a");
+    a.download = filename;
+    a.href = dataURI;
+    a.target = "_blank";
+    a.innerHTML = "Download "+filename;
+    document.getElementById("downloadlink").innerHTML = "";
+    document.getElementById("downloadlink").appendChild(a);
+    a.click();
+}
+
+function exportChart() {
     "use strict";
     var svgString = new XMLSerializer().serializeToString(document.querySelector('#chart_div svg'));
     var canvas = document.getElementById("invisible_svg_rendering_canvas");
@@ -301,15 +310,18 @@ function fixChartExportLinks() {
     img.onload = function() {
         ctx.drawImage(img, 0, 0);
         var pngUrl = canvas.toDataURL("image/png");
-        document.querySelector('#graphexport').href = pngUrl;
+        download(pngUrl, "chartfudge.png");
     };
     img.src = url;
+}
 
+function exportData() {
+    "use strict";
     var csvString = '"' + (document.getElementById('xaxis').value.replace('"', '""')) + '","' + (document.getElementById('yaxis').value.replace('"', '""')) + '"\n';
     for (var i = 0; i < gchartdata.getNumberOfRows(); i++) {
         csvString += gchartdata.getValue(i, 0).toFixed(5) + "," + gchartdata.getValue(i, 1).toFixed(5) + "\r\n";
     }
-    document.querySelector('#dataexport').href = "data:text/csv;base64," + btoa(csvString);
+    download("data:text/csv;base64," + btoa(csvString), "chartfudge.csv");
 }
 
 window.onpopstate = function(event) {
