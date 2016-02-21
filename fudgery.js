@@ -122,8 +122,21 @@ function drawRealChart() {
         title: document.getElementById('charttitle').value,
         enableInteractivity: false,
         legend: {position: "none"},
-        height: 260
+        height: 260,
+        animation: {duration: 100, easing: "inAndOut"}
     };
+    if (document.getElementById("theme").selectedIndex === 1) {
+        options.fontName = "Times New Roman";
+        options.fontSize = 12;
+        options.hAxis.gridlines = {color: "white"};
+        options.vAxis.gridlines = {color: "white"};
+        options.hAxis.titleTextStyle = {italic: false};
+        options.vAxis.titleTextStyle = {italic: false};
+        options.colors = ["black"];
+        options.lineWidth = 1;
+        options.pointSize = 5;
+        options.pointShape = "square";
+    }
     if (/^\s*$/.test(options.vAxis.title)) {
         options.chartArea.left = 0;
         options.height -= 20;
@@ -133,15 +146,18 @@ function drawRealChart() {
         options.height -= 20;
     }
     if (/^\s*$/.test(options.title)) {
-        options.chartArea.top = 0;
-        options.height -= 20;
+        options.chartArea.top = 5;
+        options.height -= 15;
     }
     var trendlineselect = document.getElementById("trendline");
     if (trendlineselect.selectedIndex > 0) {
         options.trendlines = {0: {type: trendlineselect.options[trendlineselect.selectedIndex].value, degree: 5}};
+        if (document.getElementById("theme").selectedIndex === 1) {
+            options.trendlines[0].pointSize = 0;
+        }
     }
     gchart.draw(gchartdata, options);
-    setTimeout(fixChartExportLinks,0);
+    setTimeout(fixChartExportLinks,150);
 }
 
 var chartData = [];
