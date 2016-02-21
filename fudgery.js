@@ -233,7 +233,8 @@ function drawRealChart() {
         animation: {
             duration: 100,
             easing: "inAndOut"
-        }
+        },
+        pointShape: "square"
     };
     if (document.getElementById("theme").selectedIndex === 1) {
         options.fontName = "Times New Roman";
@@ -253,7 +254,6 @@ function drawRealChart() {
         options.colors = ["black"];
         options.lineWidth = 1;
         options.pointSize = 5;
-        options.pointShape = "square";
     }
     if (/^\s*$/.test(options.vAxis.title)) {
         options.chartArea.left = 5;
@@ -281,6 +281,8 @@ function drawRealChart() {
     }
     gchart.draw(gchartdata, options);
     setTimeout(fixChartExportLinks, 150);
+    setTimeout(fixChartExportLinks, 250);
+    setTimeout(fixChartExportLinks, 500);
 }
 
 function fixChartExportLinks() {
