@@ -240,3 +240,7 @@ window.onpopstate = function(event) {
         document.body.className=event.state.page;
     }
 }
+
+document.body.ontouchstart = function() {
+    document.body.parentElement.className = "istouch";
+}
