@@ -211,6 +211,9 @@ function drawRealChart() {
     if (gchart === undefined) {
         gchart = new google.visualization.LineChart(document.getElementById('chart_div'))
     }
+    var ymin = parseFloat(document.getElementById("yaxismin").value, 10);
+    var ymax = parseFloat(document.getElementById("yaxismax").value, 10);
+    var approxLabelLength = Math.log(Math.max(Math.abs(ymin),Math.abs(ymax))) * 10 / Math.LN10;
     var options = {
         hAxis: {
             title: document.getElementById('xaxis').value
@@ -219,7 +222,7 @@ function drawRealChart() {
             title: document.getElementById('yaxis').value
         },
         chartArea: {
-            left: 40,
+            left: 10+approxLabelLength,
             bottom: 40,
             top: 30,
             right: 0
