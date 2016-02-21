@@ -327,11 +327,10 @@ function download(dataURI, filename) {
         downloadURI = URL.createObjectURL(dataURLToBlob(dataURI));
         a.href = downloadURI;
     }
-    a.target = "_blank";
-    a.innerHTML = "Download "+filename;
-    document.getElementById("downloadlink").innerHTML = "";
-    document.getElementById("downloadlink").appendChild(a);
+    a.target = "downloadwindow";
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
 }
 
 function exportChart() {
@@ -344,6 +343,15 @@ function exportChart() {
     var ctx = canvas.getContext("2d");
     ctx.scale(3, 3);
     var url = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgString)));
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+        // Create the new tab now, while the iOS popup blocker is allowing us to.
+        var a = document.createElement("a");
+        a.href = "about:blank";
+        a.target = "downloadwindow";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
     img.onload = function() {
         ctx.drawImage(img, 0, 0);
         var pngUrl = canvas.toDataURL("image/png");
