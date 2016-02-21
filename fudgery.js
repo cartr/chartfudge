@@ -1,4 +1,7 @@
-/* global google */
+document.body.ontouchstart = function() {
+    document.body.parentElement.className = "istouch";
+}
+
 function backingScale() {
     if ('devicePixelRatio' in window) {
         if (window.devicePixelRatio > 1) {
@@ -103,9 +106,71 @@ function redrawSquiggleView(canvas, ctx) {
 window.addEventListener("load", setUpGraphDrawing);
 if (document.readyState == "complete") { setUpGraphDrawing(); }
 
-
+var chartData = [];
+var fudgedChartData = [];
 var gchart = undefined;
 var gchartdata = undefined;
+
+function squiggleDataToChartData() {
+    chartData = [];
+    var leftDefinedIndex = undefined;
+    var rightDefinedIndex = -1;
+    for (var i=0; i<squiggleData.length; i+=Math.pow(2,-document.getElementById("density").value)) {
+        if (squiggleData[i] === undefined) {
+            if (leftDefinedIndex === undefined) {
+                continue;
+            } else if (rightDefinedIndex <= leftDefinedIndex) {
+                for (var j=leftDefinedIndex+1; j<squiggleData.length; j++) {
+                    if (squiggleData[j] !== undefined) {
+                        rightDefinedIndex = j;
+                        break;
+                    }
+                }
+                if (rightDefinedIndex <= leftDefinedIndex) { break; }
+            }
+            chartData[chartData.length] = 1 - ((squiggleData[leftDefinedIndex] + (squiggleData[rightDefinedIndex] - squiggleData[leftDefinedIndex]) * (i - leftDefinedIndex) / (rightDefinedIndex - leftDefinedIndex)) / squiggleDataHeight );
+        } else {
+            leftDefinedIndex = i;
+            chartData[chartData.length] = 1 - (squiggleData[i] / squiggleDataHeight);
+        }
+    }
+}
+
+function clamp(n) {
+    if (n < 0) {
+        return 0;
+    } else if (n > 1) {
+        return 1;
+    }
+    return n;
+}
+
+function chartDataToFudgedChartData() {
+    fudgedChartData = [];
+    var jitter = document.getElementById("jitter").value;
+    var xmin = parseFloat(document.getElementById("xaxismin").value,10);
+    var xmax = parseFloat(document.getElementById("xaxismax").value,10);
+    if (xmin === undefined || xmax === undefined) { return; }
+    if (xmin >= xmax) { return; }
+    var xspread = xmax - xmin;
+    
+    var ymin = parseFloat(document.getElementById("yaxismin").value,10);
+    var ymax = parseFloat(document.getElementById("yaxismax").value,10);
+    if (ymin === undefined || ymax === undefined) { return; }
+    if (ymin >= ymax) { return; }
+    var yspread = ymax - ymin;
+    for (var i=0; i<chartData.length; i++) {
+        fudgedChartData[fudgedChartData.length] = [xmin + (i*xspread/(chartData.length-1)), ymin+yspread*clamp(chartData[i] + (Math.random()-0.5)*jitter)];
+    }
+    
+    if (gchartdata == undefined) {
+        gchartdata = new google.visualization.DataTable();
+        gchartdata.addColumn('number','X');
+        gchartdata.addColumn('number','Y');
+    }
+    gchartdata.removeRows(0,gchartdata.getNumberOfRows());
+    gchartdata.addRows(fudgedChartData);
+}
 
 function drawRealChart() {
     if (gchart === undefined) {
@@ -160,69 +225,6 @@ function drawRealChart() {
     setTimeout(fixChartExportLinks,150);
 }
 
-var chartData = [];
-function squiggleDataToChartData() {
-    chartData = [];
-    var leftDefinedIndex = undefined;
-    var rightDefinedIndex = -1;
-    for (var i=0; i<squiggleData.length; i+=Math.pow(2,-document.getElementById("density").value)) {
-        if (squiggleData[i] === undefined) {
-            if (leftDefinedIndex === undefined) {
-                continue;
-            } else if (rightDefinedIndex <= leftDefinedIndex) {
-                for (var j=leftDefinedIndex+1; j<squiggleData.length; j++) {
-                    if (squiggleData[j] !== undefined) {
-                        rightDefinedIndex = j;
-                        break;
-                    }
-                }
-                if (rightDefinedIndex <= leftDefinedIndex) { break; }
-            }
-            chartData[chartData.length] = 1 - ((squiggleData[leftDefinedIndex] + (squiggleData[rightDefinedIndex] - squiggleData[leftDefinedIndex]) * (i - leftDefinedIndex) / (rightDefinedIndex - leftDefinedIndex)) / squiggleDataHeight );
-        } else {
-            leftDefinedIndex = i;
-            chartData[chartData.length] = 1 - (squiggleData[i] / squiggleDataHeight);
-        }
-    }
-}
-
-function clamp(n) {
-    if (n < 0) {
-        return 0;
-    } else if (n > 1) {
-        return 1;
-    }
-    return n;
-}
-
-var fudgedChartData = [];
-function chartDataToFudgedChartData() {
-    fudgedChartData = [];
-    var jitter = document.getElementById("jitter").value;
-    var xmin = parseFloat(document.getElementById("xaxismin").value,10);
-    var xmax = parseFloat(document.getElementById("xaxismax").value,10);
-    if (xmin === undefined || xmax === undefined) { return; }
-    if (xmin >= xmax) { return; }
-    var xspread = xmax - xmin;
-    
-    var ymin = parseFloat(document.getElementById("yaxismin").value,10);
-    var ymax = parseFloat(document.getElementById("yaxismax").value,10);
-    if (ymin === undefined || ymax === undefined) { return; }
-    if (ymin >= ymax) { return; }
-    var yspread = ymax - ymin;
-    for (var i=0; i<chartData.length; i++) {
-        fudgedChartData[fudgedChartData.length] = [xmin + (i*xspread/(chartData.length-1)), ymin+yspread*clamp(chartData[i] + (Math.random()-0.5)*jitter)];
-    }
-    
-    if (gchartdata == undefined) {
-        gchartdata = new google.visualization.DataTable();
-        gchartdata.addColumn('number','X');
-        gchartdata.addColumn('number','Y');
-    }
-    gchartdata.removeRows(0,gchartdata.getNumberOfRows());
-    gchartdata.addRows(fudgedChartData);
-}
-
 function fixChartExportLinks() {
     var svgString = new XMLSerializer().serializeToString(document.querySelector('#chart_div svg'));
     var canvas = document.getElementById("invisible_svg_rendering_canvas");
@@ -255,8 +257,4 @@ window.onpopstate = function(event) {
         drawRealChart();
         document.body.className=event.state.page;
     }
-}
-
-document.body.ontouchstart = function() {
-    document.body.parentElement.className = "istouch";
 }
