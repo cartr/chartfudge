@@ -313,14 +313,19 @@ function dataURLToBlob(dataURL) {
     return new Blob([uInt8Array], {type: contentType});
 }
 
+var downloadURI = undefined;
 function download(dataURI, filename) {
     "use strict";
     var a = document.createElement("a");
     a.download = filename;
     a.href = dataURI;
-    if (document.documentMode || /Edge/.test(navigator.userAgent)) {
+    if (document.documentMode || /Edge/.test(navigator.userAgent) || window.URL) {
         // IE can't navigate to data URIs, so make a Blob URI instead.
-        a.href = URL.createObjectURL(dataURLToBlob(dataURI));
+        if (downloadURI) {
+            URL.revokeObjectURL(downloadURI);
+        }
+        downloadURI = URL.createObjectURL(dataURLToBlob(dataURI));
+        a.href = downloadURI;
     }
     a.target = "_blank";
     a.innerHTML = "Download "+filename;
