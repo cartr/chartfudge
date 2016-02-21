@@ -306,7 +306,7 @@ function exportChart() {
     var img = new Image();
     var ctx = canvas.getContext("2d");
     ctx.scale(3, 3);
-    var url = "data:image/svg+xml;base64," + btoa(svgString);
+    var url = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgString)));
     img.onload = function() {
         ctx.drawImage(img, 0, 0);
         var pngUrl = canvas.toDataURL("image/png");
@@ -321,7 +321,7 @@ function exportData() {
     for (var i = 0; i < gchartdata.getNumberOfRows(); i++) {
         csvString += gchartdata.getValue(i, 0).toFixed(5) + "," + gchartdata.getValue(i, 1).toFixed(5) + "\r\n";
     }
-    download("data:text/csv;base64," + btoa(csvString), "chartfudge.csv");
+    download("data:text/csv;base64," + btoa(unescape(encodeURIComponent(csvString))), "chartfudge.csv");
 }
 
 window.onpopstate = function(event) {
