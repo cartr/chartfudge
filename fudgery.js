@@ -138,12 +138,12 @@ function drawRealChart() {
         options.pointShape = "square";
     }
     if (/^\s*$/.test(options.vAxis.title)) {
-        options.chartArea.left = 0;
+        options.chartArea.left = 5;
         options.height -= 20;
     }
     if (/^\s*$/.test(options.hAxis.title)) {
-        options.chartArea.bottom = 0;
-        options.height -= 20;
+        options.chartArea.bottom = 5;
+        options.height -= 15;
     }
     if (/^\s*$/.test(options.title)) {
         options.chartArea.top = 5;
