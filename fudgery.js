@@ -150,7 +150,8 @@ function squiggleDataToChartData() {
                     break;
                 }
             }
-            chartData[chartData.length] = 1 - ((squiggleData[leftDefinedIndex] + (squiggleData[rightDefinedIndex] - squiggleData[leftDefinedIndex]) * (i - leftDefinedIndex) / (rightDefinedIndex - leftDefinedIndex)) / squiggleDataHeight);
+            var interpolatedValue = squiggleData[leftDefinedIndex] + (squiggleData[rightDefinedIndex] - squiggleData[leftDefinedIndex]) * (i - leftDefinedIndex) / (rightDefinedIndex - leftDefinedIndex);
+            chartData[chartData.length] = 1 - (interpolatedValue / squiggleDataHeight);
         } else {
             leftDefinedIndex = i;
             chartData[chartData.length] = 1 - (squiggleData[i] / squiggleDataHeight);
