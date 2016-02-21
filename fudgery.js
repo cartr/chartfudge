@@ -285,11 +285,43 @@ function drawRealChart() {
     gchart.draw(gchartdata, options);
 }
 
+/* Data URL to Blob function from https://github.com/ebidel/filer.js/blob/master/src/filer.js#L137
+
+Used only on MSIE/Edge.
+*/
+function dataURLToBlob(dataURL) {
+    var BASE64_MARKER = ';base64,';
+    if (dataURL.indexOf(BASE64_MARKER) == -1) {
+        var parts = dataURL.split(',');
+        var contentType = parts[0].split(':')[1];
+        var raw = decodeURIComponent(parts[1]);
+
+        return new Blob([raw], {type: contentType});
+    }
+
+    var parts = dataURL.split(BASE64_MARKER);
+    var contentType = parts[0].split(':')[1];
+    var raw = window.atob(parts[1]);
+    var rawLength = raw.length;
+
+    var uInt8Array = new Uint8Array(rawLength);
+
+    for (var i = 0; i < rawLength; ++i) {
+        uInt8Array[i] = raw.charCodeAt(i);
+    }
+
+    return new Blob([uInt8Array], {type: contentType});
+}
+
 function download(dataURI, filename) {
     "use strict";
     var a = document.createElement("a");
     a.download = filename;
     a.href = dataURI;
+    if (document.documentMode || /Edge/.test(navigator.userAgent)) {
+        // IE can't navigate to data URIs, so make a Blob URI instead.
+        a.href = URL.createObjectURL(dataURLToBlob(dataURI));
+    }
     a.target = "_blank";
     a.innerHTML = "Download "+filename;
     document.getElementById("downloadlink").innerHTML = "";
