@@ -86,6 +86,14 @@ function setUpGraphDrawing() {
         }
         return false;
     });
+    
+    document.getElementById("fudge_button").addEventListener("click", function() {
+        squiggleDataToChartData();
+        chartDataToFudgedChartData();
+        drawRealChart();
+        document.body.className='charting';
+        history.pushState({'page':'charting'},'');
+    });
 
     google.charts.load('current', {
         packages: ['corechart', 'line']

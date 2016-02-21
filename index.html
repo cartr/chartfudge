@@ -12,35 +12,67 @@
             <div id="chart_view">
                 <div id="chart_div"></div>
                 <div id="chart_controls">
-                    <label for="charttitle">Title: </label><input id="charttitle" oninput="drawRealChart();"><br>
-                    <label for="xaxis">X axis: </label><input id="xaxis" oninput="drawRealChart();"><br>
-                    <label for="xaxismin">X value range: </label><input id="xaxismin" type="number" value="0" onchange="
-            chartDataToFudgedChartData(); drawRealChart();">-<input id="xaxismax" type="number" value="100" onchange="
-            chartDataToFudgedChartData(); drawRealChart();"><br>
-                    <label for="yaxis">Y axis: </label><input id="yaxis" oninput="drawRealChart();"><br>
-                    <label for="yaxismin">Y value range: </label><input id="yaxismin" type="number" value="0" onchange="
-            chartDataToFudgedChartData(); drawRealChart();">-<input id="yaxismax" type="number" value="100" onchange="
-            chartDataToFudgedChartData(); drawRealChart();"><br>
-                    <label for="density">Data density: </label><input id="density" type="range" min="-2" max="2" step="1" value="0" onchange="
-            squiggleDataToChartData(); chartDataToFudgedChartData(); drawRealChart();"><br>
-                    <label for="jitter">Jitter: </label><input id="jitter" type="range" min="0" max="0.6" step="0.05" value="0.15" onchange="
-            chartDataToFudgedChartData(); drawRealChart();"><br>
-                    <label for="trendline">Trend line: </label><select id="trendline" onchange="drawRealChart();">
+                    <label for="charttitle">Title: </label>
+                    <input id="charttitle" oninput="drawRealChart();">
+                    <br>
+                    
+                    <label for="xaxis">X axis: </label>
+                    <input id="xaxis" oninput="drawRealChart();">
+                    <br>
+                    
+                    <label for="xaxismin">X value range: </label>
+                    <input id="xaxismin" type="number" value="0"
+                        onchange="chartDataToFudgedChartData(); drawRealChart();">
+                    -
+                    <input id="xaxismax" type="number" value="100"
+                        onchange="chartDataToFudgedChartData(); drawRealChart();">
+                    <br>
+                    
+                    <label for="yaxis">Y axis: </label>
+                    <input id="yaxis" oninput="drawRealChart();">
+                    <br>
+                    
+                    <label for="yaxismin">Y value range: </label>
+                    <input id="yaxismin" type="number" value="0" 
+                        onchange="chartDataToFudgedChartData(); drawRealChart();">
+                    -
+                    <input id="yaxismax" type="number" value="100"
+                        onchange="chartDataToFudgedChartData(); drawRealChart();">
+                    <br>
+                    
+                    <label for="density">Data density: </label>
+                    <input id="density" type="range" min="-2" max="2" step="1" value="0"
+                        onchange="squiggleDataToChartData(); chartDataToFudgedChartData(); drawRealChart();">
+                    <br>
+                    
+                    <label for="jitter">Jitter: </label>
+                    <input id="jitter" type="range" min="0" max="0.6" step="0.05" value="0.15"
+                        onchange="chartDataToFudgedChartData(); drawRealChart();"
+                    <br>
+                    
+                    <label for="trendline">Trend line: </label>
+                    <select id="trendline" onchange="drawRealChart();">
                         <option value="none" selected>No trend line</option>
                         <option value="linear">Line</option>
                         <option value="exponential">Exponential</option>
                         <option value="polynomial">Polynomial</option>
-                    </select><br>
-                    <label for="theme">Theme: </label><select id="theme" onchange="drawRealChart();">
+                    </select>
+                    <br>
+                    
+                    <label for="theme">Theme: </label>
+                    <select id="theme" onchange="drawRealChart();">
                         <option value="default">Default</option>
                         <option value="science">Scientific</option>
-                    </select><br>
-                    <a id="dataexport" target="_blank" class="button">Export data</a><a id="graphexport" target="_blank" class="button">Export chart</a>
+                    </select>
+                    <br>
+                    
+                    <a id="dataexport" target="_blank" class="button">Export data</a>
+                    <a id="graphexport" target="_blank" class="button">Export chart</a>
                 </div>
             </div>
             <div id="squiggle_view">
                 <canvas width="300" height="200" id="drawaline" class="squiggle"></canvas>
-                <div onclick="squiggleDataToChartData(); chartDataToFudgedChartData(); drawRealChart(); document.body.className='charting'; history.pushState({'page':'charting'},'')" id="fudge_button" class="button">Fudge!</div>
+                <div id="fudge_button" class="button">Fudge!</div>
                 <div id="marketing">
                     <p>ChartFudge lets you quickly and easily make convincing fake charts. Just draw in the grey box, hit the "Fudge" button, and ChartFudge will do the rest. <a href="about.html">Learn More</a></p>
                     <p>Created during the <a href="https://www.koding.com/Hackathon">hack.summit() Virtual Hackathon 2016</a> by Carter Sande.</p>
