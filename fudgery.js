@@ -349,7 +349,7 @@ function exportChart() {
 
 function exportData() {
     "use strict";
-    var csvString = '"' + (document.getElementById('xaxis').value.replace('"', '""')) + '","' + (document.getElementById('yaxis').value.replace('"', '""')) + '"\n';
+    var csvString = '"' + (document.getElementById('xaxis').value.replace('"', '""')) + '","' + (document.getElementById('yaxis').value.replace('"', '""')) + '"\r\n';
     for (var i = 0; i < gchartdata.getNumberOfRows(); i++) {
         csvString += gchartdata.getValue(i, 0).toFixed(5) + "," + gchartdata.getValue(i, 1).toFixed(5) + "\r\n";
     }
