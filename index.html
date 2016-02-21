@@ -158,12 +158,21 @@
                 <div onclick="squiggleDataToChartData(); chartDataToFudgedChartData(); drawRealChart(); document.body.className='charting'; history.pushState({'page':'charting'},'')" id="fudge_button" class="button">Fudge!</div>
                 <div id="marketing">
                     <p>ChartFudge lets you quickly and easily make fake charts. Just draw in the grey box, hit the "Fudge" button, and ChartFudge will do the rest.</p>
-                    <p>Created during the <a href="https://www.koding.com/Hackathon">hack.summit() Virtual Hackathon 2016</a>.</p>
+                    <p>Created during the <a href="https://www.koding.com/Hackathon">hack.summit() Virtual Hackathon 2016</a> by Carter Sande.</p>
                 </div>
             </div>
         </main>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script src="fudgery.js" async></script>
         <canvas id="invisible_svg_rendering_canvas" style="display:none"></canvas>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-48551981-5', 'auto');
+            ga('send', 'pageview');
+        </script>
     </body>
 </html>
