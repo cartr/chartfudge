@@ -241,7 +241,7 @@ function fixChartExportLinks() {
     
     var csvString = '"'+(document.getElementById('xaxis').value.replace('"','""'))+'","'+(document.getElementById('yaxis').value.replace('"','""'))+'"\n';
     for (var i=0; i<gchartdata.getNumberOfRows(); i++) {
-        csvString += gchartdata.getValue(i,0)+","+gchartdata.getValue(i,1)+"\r\n";
+        csvString += gchartdata.getValue(i,0).toFixed(5)+","+gchartdata.getValue(i,1).toFixed(5)+"\r\n";
     }
     document.querySelector('#dataexport').href = "data:text/csv;base64,"+btoa(csvString);
 }
