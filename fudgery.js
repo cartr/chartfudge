@@ -199,14 +199,14 @@ var fudgedChartData = [];
 function chartDataToFudgedChartData() {
     fudgedChartData = [];
     var jitter = document.getElementById("jitter").value;
-    var xmin = parseInt(document.getElementById("xaxismin").value,10);
-    var xmax = parseInt(document.getElementById("xaxismax").value,10);
+    var xmin = parseFloat(document.getElementById("xaxismin").value,10);
+    var xmax = parseFloat(document.getElementById("xaxismax").value,10);
     if (xmin === undefined || xmax === undefined) { return; }
     if (xmin >= xmax) { return; }
     var xspread = xmax - xmin;
     
-    var ymin = parseInt(document.getElementById("yaxismin").value,10);
-    var ymax = parseInt(document.getElementById("yaxismax").value,10);
+    var ymin = parseFloat(document.getElementById("yaxismin").value,10);
+    var ymax = parseFloat(document.getElementById("yaxismax").value,10);
     if (ymin === undefined || ymax === undefined) { return; }
     if (ymin >= ymax) { return; }
     var yspread = ymax - ymin;
