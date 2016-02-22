@@ -361,7 +361,13 @@ function exportChart() {
     img.onload = function() {
         ctx.drawImage(img, 0, 0);
         var pngUrl = canvas.toDataURL("image/png");
-        download(pngUrl, "chartfudge.png");
+        var title = document.getElementById('charttitle').value;
+        if (/^\s*$/.test(title)) {
+            title = "ChartFudge";
+        } else {
+            title += " - ChartFudge"
+        }
+        download(pngUrl, title+".png");
     };
     img.src = url;
 }
@@ -372,7 +378,13 @@ function exportData() {
     for (var i = 0; i < gchartdata.getNumberOfRows(); i++) {
         csvString += gchartdata.getValue(i, 0).toFixed(5) + "," + gchartdata.getValue(i, 1).toFixed(5) + "\r\n";
     }
-    download("data:text/csv;base64," + btoa(unescape(encodeURIComponent(csvString))), "chartfudge.csv");
+    var title = document.getElementById('charttitle').value;
+    if (/^\s*$/.test(title)) {
+        title = "ChartFudge";
+    } else {
+        title += " - ChartFudge"
+    }
+    download("data:text/csv;base64," + btoa(unescape(encodeURIComponent(csvString))), title+".csv");
 }
 
 window.onpopstate = function(event) {
