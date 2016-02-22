@@ -225,7 +225,7 @@ function drawRealChart() {
             left: 30+approxLabelLength,
             bottom: 40,
             top: 30,
-            right: 0
+            right: 5
         },
         title: document.getElementById('charttitle').value,
         enableInteractivity: false,
