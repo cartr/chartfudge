@@ -174,7 +174,7 @@ function chartDataToFudgedChartData() {
     fudgedChartData = [];
     var jitter = document.getElementById("jitter").value;
     var xmin = parseFloat(document.getElementById("xaxismin").value, 10);
-    var xmax = parseFloat(document.getElementById("xaxismax").value, 10);
+    var xmax = parseFloat(document.getElementById("xaxismax").value, 10)+1;
     if (xmin === undefined || xmax === undefined) {
         return;
     }
@@ -216,10 +216,12 @@ function drawRealChart() {
     var approxLabelLength = Math.max(8, Math.floor(Math.log(Math.max(Math.abs(ymin),Math.abs(ymax))) / Math.LN10) * 8);
     var options = {
         hAxis: {
-            title: document.getElementById('xaxis').value
+            title: document.getElementById('xaxis').value,
+            slantedText: false
         },
         vAxis: {
-            title: document.getElementById('yaxis').value
+            title: document.getElementById('yaxis').value,
+            slantedText: false
         },
         chartArea: {
             left: 30+approxLabelLength,
@@ -265,6 +267,10 @@ function drawRealChart() {
     if (/^\s*$/.test(options.hAxis.title)) {
         options.chartArea.bottom = 5;
         options.height -= 15;
+    } else {
+        var xmax = parseFloat(document.getElementById("xaxismax").value, 10);
+        var approxHLabelLength = Math.max(5, Math.floor(Math.log(Math.abs(xmax)+1) / Math.LN10) * 5);
+        options.chartArea.right = approxHLabelLength;
     }
     if (/^\s*$/.test(options.title)) {
         options.chartArea.top = 5;
