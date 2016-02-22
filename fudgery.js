@@ -268,9 +268,11 @@ function drawRealChart() {
         options.chartArea.bottom = 5;
         options.height -= 15;
     } else {
-        var xmax = parseFloat(document.getElementById("xaxismax").value, 10);
-        var approxHLabelLength = Math.max(5, Math.floor(Math.log(Math.abs(xmax)+1) / Math.LN10) * 5);
-        options.chartArea.right = approxHLabelLength;
+        if (xmax < 5e15) {
+            var xmax = parseFloat(document.getElementById("xaxismax").value, 10);
+            var approxHLabelLength = Math.max(5, Math.floor(Math.log(Math.abs(xmax)+1) / Math.LN10) * 5);
+            options.chartArea.right = approxHLabelLength;
+        }
     }
     if (/^\s*$/.test(options.title)) {
         options.chartArea.top = 5;
