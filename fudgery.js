@@ -174,7 +174,7 @@ function chartDataToFudgedChartData() {
     fudgedChartData = [];
     var jitter = document.getElementById("jitter").value;
     var xmin = parseFloat(document.getElementById("xaxismin").value, 10);
-    var xmax = parseFloat(document.getElementById("xaxismax").value, 10)+1;
+    var xmax = parseFloat(document.getElementById("xaxismax").value, 10);
     if (xmin === undefined || xmax === undefined) {
         return;
     }
